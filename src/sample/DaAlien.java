@@ -1,23 +1,38 @@
 package sample;
 
-import javafx.scene.Scene;
 import javafx.scene.image.Image;
 
 import java.net.URL;
 
-public class DaAlien {
+public class DaAlien implements Sprite {
     public final Image image;
     public double x,y;
-    private double speed = 5;
+    private double speed = 5.5;
 
-    public DaAlien() {
+    public DaAlien(int x, int y) {
         URL url = getClass().getResource("ufo.png");
         this.image = new Image(url.toString());
+        this.x = x;
+        this.y = y;
     }
 
     public void step(int time) {
-        y = Math.sin(time/76.0)*50 + 50;
-        x = 200;
+        y += Math.sin(time/10.0)*speed;
+    }
+
+    @Override
+    public double x() {
+        return x;
+    }
+
+    @Override
+    public double y() {
+        return y;
+    }
+
+    @Override
+    public Image image() {
+        return image;
     }
 
 

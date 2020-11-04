@@ -13,6 +13,9 @@ import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
+import java.util.ArrayList;
+import java.util.List;
+
 
 public class Main extends Application {
 
@@ -20,12 +23,10 @@ public class Main extends Application {
     public static final int SCREEN_HEIGHT = 768;
     private GraphicsContext gc;
     private Timeline gameLoop;
-    private MahShip ship;
-    private DaAlien alien;
+    private List<Sprite> sprites = new ArrayList<>();
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-
 
         primaryStage.setTitle("Drawing Operations Test");
         Group root = new Group();
@@ -37,13 +38,17 @@ public class Main extends Application {
         primaryStage.show();
 
 
-        this.ship = new MahShip(scene);
-        this.alien = new DaAlien();
+        sprites.add(new MahShip(scene));
+        sprites.add(new DaAlien(200,200));
+        sprites.add(new DaAlien(250,200));
+        sprites.add(new DaAlien(100,200));
+        sprites.add(new DaAlien(70,400));
+        sprites.add(new DaAlien(350,600));
         startLoop();
     }
 
     private void startLoop() {
-        final Duration dur = Duration.millis(1000 / 60);
+        final Duration dur = Duration.millis(1000 / 60.0);
         final KeyFrame frame = new KeyFrame(dur, evt -> {
             Platform.runLater(() -> {
                 step();
@@ -62,15 +67,18 @@ public class Main extends Application {
         gc.clearRect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
         gc.setFill(Paint.valueOf("#000033"));
         gc.fillRect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
-        gc.drawImage(this.ship.image, ship.x, ship.y, 50, 50);
-        gc.drawImage(this.alien.image, alien.x, alien.y, 50, 50);
+        for (Sprite sprite : sprites) {
+            gc.drawImage(sprite.image(), sprite.x(), sprite.y(), 50, 50);
+        }
     }
 
     int time = 0;
 
     private void step() {
-        this.ship.step(time);
-        this.alien.step(time);
+        for (Sprite sprite : sprites) {
+            sprite.step(time);
+        }
+
         time++;
     }
 

@@ -7,7 +7,7 @@ import javafx.scene.input.KeyEvent;
 
 import java.net.URL;
 
-public class MahShip {
+public class MahShip implements Sprite {
     public final Image image;
     public double x,y;
     private double dx,dy;
@@ -57,6 +57,21 @@ public class MahShip {
         if(down) y += speed;
         if(left) x-=speed;
         if(right) x+=speed;
+    }
+
+    @Override
+    public double x() {
+        return x;
+    }
+
+    @Override
+    public double y() {
+        return y;
+    }
+
+    @Override
+    public Image image() {
+        return image;
     }
 
 
