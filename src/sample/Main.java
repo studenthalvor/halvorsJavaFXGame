@@ -9,15 +9,19 @@ import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
 
 public class Main extends Application {
 
+    public static final int SCREEN_WIDTH = 1024;
+    public static final int SCREEN_HEIGHT = 768;
     private GraphicsContext gc;
     private Timeline gameLoop;
     private MahShip ship;
+    private DaAlien alien;
 
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -25,7 +29,7 @@ public class Main extends Application {
 
         primaryStage.setTitle("Drawing Operations Test");
         Group root = new Group();
-        Canvas canvas = new Canvas(300, 250);
+        Canvas canvas = new Canvas(SCREEN_WIDTH, SCREEN_HEIGHT);
         this.gc = canvas.getGraphicsContext2D();
         root.getChildren().add(canvas);
         Scene scene = new Scene(root);
@@ -34,6 +38,7 @@ public class Main extends Application {
 
 
         this.ship = new MahShip(scene);
+        this.alien = new DaAlien();
         startLoop();
     }
 
@@ -54,14 +59,18 @@ public class Main extends Application {
 
 
     private void paint(GraphicsContext gc) {
-        gc.clearRect(0, 0, 300, 250);
+        gc.clearRect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
+        gc.setFill(Paint.valueOf("#000033"));
+        gc.fillRect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
         gc.drawImage(this.ship.image, ship.x, ship.y, 50, 50);
+        gc.drawImage(this.alien.image, alien.x, alien.y, 50, 50);
     }
 
     int time = 0;
 
     private void step() {
         this.ship.step(time);
+        this.alien.step(time);
         time++;
     }
 
