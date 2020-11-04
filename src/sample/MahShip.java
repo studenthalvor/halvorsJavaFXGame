@@ -13,6 +13,8 @@ public class MahShip {
     private double dx,dy;
     private double speed = 5;
 
+    private boolean up,down,left,right;
+
     public MahShip(Scene scene) {
         URL url = getClass().getResource("ship.png");
         readKeyInput(scene);
@@ -22,37 +24,39 @@ public class MahShip {
     private void readKeyInput(Scene scene) {
         scene.addEventHandler(KeyEvent.KEY_PRESSED, (key) -> {
             if (key.getCode() == KeyCode.UP) {
-                dy -= speed;
+                up = true;
             }
             if (key.getCode() == KeyCode.DOWN) {
-                dy += speed;
+                down = true;
             }
             if (key.getCode() == KeyCode.LEFT) {
-                dx -= speed;
+                left = true;
             }
             if (key.getCode() == KeyCode.RIGHT) {
-                dx += speed;
+                right = true;
             }
         });
         scene.addEventHandler(KeyEvent.KEY_RELEASED, (key) -> {
             if (key.getCode() == KeyCode.UP) {
-                dy += speed;
+                up = false;
             }
             if (key.getCode() == KeyCode.DOWN) {
-                dy -= speed;
+                down = false;
             }
             if (key.getCode() == KeyCode.LEFT) {
-                dx += speed;
+                left = false;
             }
             if (key.getCode() == KeyCode.RIGHT) {
-                dx -= speed;
+                right = false;
             }
         });
     }
 
     public void step(int time) {
-        x += dx;
-        y += dy;
+        if(up) y -= speed;
+        if(down) y += speed;
+        if(left) x-=speed;
+        if(right) x+=speed;
     }
 
 
