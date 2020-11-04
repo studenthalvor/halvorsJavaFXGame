@@ -10,7 +10,6 @@ import java.net.URL;
 public class MahShip implements Sprite {
     public final Image image;
     public double x,y;
-    private double dx,dy;
     private double speed = 5;
 
     private boolean up,down,left,right;
