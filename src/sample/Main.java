@@ -9,56 +9,61 @@ import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.image.Image;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.ArcType;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
-import java.io.File;
-import java.net.URL;
 
 public class Main extends Application {
 
     private GraphicsContext gc;
     private Timeline gameLoop;
-    private Image ship;
+    private MahShip ship;
 
     @Override
-    public void start(Stage primaryStage) throws Exception{
+    public void start(Stage primaryStage) throws Exception {
+
+
         primaryStage.setTitle("Drawing Operations Test");
         Group root = new Group();
         Canvas canvas = new Canvas(300, 250);
         this.gc = canvas.getGraphicsContext2D();
-        drawShapes(gc);
         root.getChildren().add(canvas);
-        primaryStage.setScene(new Scene(root));
+        Scene scene = new Scene(root);
+        primaryStage.setScene(scene);
         primaryStage.show();
+
+
+        this.ship = new MahShip(scene);
         startLoop();
     }
 
     private void startLoop() {
-        URL url = getClass().getResource("ship.png");
-        this.ship = new Image(url.toString());
-
-        final Duration dur = Duration.millis(1000/60);
+        final Duration dur = Duration.millis(1000 / 60);
         final KeyFrame frame = new KeyFrame(dur, evt -> {
-            Platform.runLater(()->drawShapes(this.gc));
+            Platform.runLater(() -> {
+                step();
+                paint(this.gc);
+            });
         });
 
         this.gameLoop = new Timeline();
         gameLoop.setCycleCount(Animation.INDEFINITE);
         gameLoop.getKeyFrames().add(frame);
         gameLoop.playFromStart();
+    }
 
 
+    private void paint(GraphicsContext gc) {
+        gc.clearRect(0, 0, 300, 250);
+        gc.drawImage(this.ship.image, ship.x, ship.y, 50, 50);
     }
 
     int time = 0;
-    private void drawShapes(GraphicsContext gc) {
-        gc.clearRect(0,0,300,250);
-        gc.drawImage(this.ship,0,Math.sin(time/100.0)*50 + 50,50,50);
 
+    private void step() {
+        this.ship.step(time);
         time++;
     }
 
