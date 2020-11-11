@@ -42,11 +42,11 @@ public class Main extends Application {
 
         //Create ship and aliens
         sprites.add(new MahShip(scene));
-        sprites.add(new DaAlien(200,200));
+        sprites.add(new DaAlien(600,170));
         sprites.add(new DaAlien(250,200));
-        sprites.add(new DaAlien(100,200));
+        sprites.add(new DaAlien(100,340));
         sprites.add(new DaAlien(70,400));
-        sprites.add(new DaAlien(350,600));
+        sprites.add(new DaAlien(450,600));
 
         startLoop();
     }
@@ -54,6 +54,7 @@ public class Main extends Application {
     /**
      * Creates a game loop that runs the step() and paint() methods every 1/60th seconf (60fps)
      */
+
     private void startLoop() {
         final Duration dur = Duration.millis(1000 / 60.0);
         final KeyFrame frame = new KeyFrame(dur, evt -> {
